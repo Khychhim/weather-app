@@ -101,6 +101,7 @@
 .Title .Description{
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15pt;
+  text-transform:capitalize;
 }
 
 .Title .Degree{

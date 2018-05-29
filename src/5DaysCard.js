@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class FiveDaysCard extends React.Component{
 
-  calculation(){
+    calculation(){
     var data = this.props.forcast;
     var hour = ((this.props.hour)/3)>>0;
 
@@ -37,11 +37,16 @@ class FiveDaysCard extends React.Component{
       dayForcast.weatherIcon = dayForcast.weatherIcon.substring(0,2)+"n";
     }
 
-
     dayForcast.minTemp = Math.floor(min);
     dayForcast.maxTemp =  Math.floor(max);
 
+
+
     return dayForcast;
+  }
+
+  handleClick = (dayForcast) =>{
+    this.props.getCalculation(dayForcast);
   }
 
   render() {
@@ -51,7 +56,7 @@ class FiveDaysCard extends React.Component{
     var link = "/"+this.props.day;
     let dayDisplay = this.props.day.substring(0,3);
     return (
-      <div className="Card">
+      <div className="Card" onClick={this.handleClick.bind(this, dayForcast)}>
         <Link to={link} className="StyleLink">
           <div className="Day">{dayDisplay}</div>
           <img src={id}></img>

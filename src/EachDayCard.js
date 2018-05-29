@@ -7,13 +7,11 @@ import FutureForcast from './FutureForcast';
 class EachDayCard extends React.Component{
 
   render() {
-    // const allForcast = this.props.allForcast;
-    //
-    // console.log(allForcast);
+
     return (
         <div className="EachDayFrame">
-          <Title/>
-          <HourlyForcast allForcast= {this.props.allForcast} day={this.props.day} hour={this.props.hour}/>
+          <Title allForcast= {this.props.allForcast} hour={this.props.hour}/>
+          <HourlyForcast allForcast= {this.props.allForcast} day={this.props.day} hour={this.props.hour}  minMaxTemp={this.props.minMaxTemp}/>
           <FutureForcast/>
         </div>
     );

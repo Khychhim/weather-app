@@ -26,6 +26,10 @@ class App extends Component {
     return weekday[day];
   }
 
+  getTemp = (value)=>{
+    this.setState({forecast:value});
+  }
+
   componentDidMount(){
     var data = JSON.parse(JSON.stringify(forecast));
     var index = 1;
@@ -48,6 +52,7 @@ class App extends Component {
   render() {
     var date = new Date();
     var hour = date.getHours();
+
     // <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
     // <Route  exact path={'/'+this.getWhatDay(date.getDay())} render={()=><EachDayCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
     return (
@@ -55,17 +60,14 @@ class App extends Component {
       &&
       <Router>
         <div className="App">
-          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
-          {/*<Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay2} day={this.getWhatDay(date.getDay()+1)} hour={hour}/>} />
-          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay3} day={this.getWhatDay(date.getDay()+2)} hour={hour}/>} />
-          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay4} day={this.getWhatDay(date.getDay()+3)} hour={hour}/>} />
-          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay5} day={this.getWhatDay(date.getDay()+4)} hour={hour}/>} />*/}
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour} getCalculation={this.getTemp}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay2} day={this.getWhatDay(date.getDay()+1)} hour={hour} getCalculation={this.getTemp}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay3} day={this.getWhatDay(date.getDay()+2)} hour={hour} getCalculation={this.getTemp}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay4} day={this.getWhatDay(date.getDay()+3)} hour={hour} getCalculation={this.getTemp}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay5} day={this.getWhatDay(date.getDay()+4)} hour={hour} getCalculation={this.getTemp}/>} />
 
-          <Route  exact path={'/'+this.getWhatDay(date.getDay())} render={()=><EachDayCard allForcast={this.state} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
-          {/*<Route  exact path={'/'+this.getWhatDay(date.getDay()+1)} render={()=><EachDayCard forcast={this.state.forecastDay2} day={this.getWhatDay(date.getDay()+2)} hour={hour}/>} />
-          <Route  exact path={'/'+this.getWhatDay(date.getDay()+2)} render={()=><EachDayCard forcast={this.state.forecastDay3} day={this.getWhatDay(date.getDay()+3)} hour={hour}/>} />
-          <Route  exact path={'/'+this.getWhatDay(date.getDay()+3)} render={()=><EachDayCard forcast={this.state.forecastDay4} day={this.getWhatDay(date.getDay()+4)} hour={hour}/>} />
-          <Route  exact path={'/'+this.getWhatDay(date.getDay()+4)} render={()=><EachDayCard forcast={this.state.forecastDay5} day={this.getWhatDay(date.getDay()+5)} hour={hour}/>} />*/}
+          <Route  exact path={'/'+this.getWhatDay(date.getDay())} render={()=><EachDayCard allForcast={this.state} day={this.getWhatDay(date.getDay())} hour={hour} minMaxTemp ={this.state.forecast}/>} />
+
         </div>
       </Router>
 

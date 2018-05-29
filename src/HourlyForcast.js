@@ -64,12 +64,7 @@ class HourlyForcast extends React.Component{
         }
       });
     }
-    console.log(HourlyForcastValue);
-    console.log(forcastDay1);
-    console.log(forcastDay2);
-
-
-
+    return HourlyForcastValue;
   }
 
   handleRightClick = ()=>{
@@ -92,17 +87,36 @@ class HourlyForcast extends React.Component{
     }
   }
 
+  displayHourlyForecast(){
+    var HourlyForcastData = this.getHourlyForecastValue();
+    var displayHourlyForecast = [];
+
+    for(var i = 0; i < 24; i++){
+      var id = "http://openweathermap.org/img/w/" +HourlyForcastData.icon[i]+ ".png";
+      var hour = HourlyForcastData.hour[i];
+      var hour = (hour < 10 ? '0' : ' ')  + hour;
+      displayHourlyForecast.push(
+        <div className="HourlyForcastCard" key={i}>
+          <div style={{'margin': '-3px 0px'}}>{hour}</div>
+          <img src={id}></img>
+          <div>{HourlyForcastData.temp[i]}&deg;</div>
+        </div>
+      );
+    }
+    return displayHourlyForecast;
+  }
+
   render() {
-      var id = "http://openweathermap.org/img/w/10n.png";
-      var isVisible = "";
-      this.getHourlyForecastValue();
+
+    var displayHourlyForecast = this.displayHourlyForecast();
+    // console.log(displayHourlyForecast);
     return (
       <div className="HourlyForcast">
         <div className="HourlyForcastMargin">
           <span style={{'fontWeight': '600', 'paddingRight': '15px', 'float': 'left'}}>{this.props.day}</span>
           <span style={{'float': 'left'}}>Today</span>
-          <span style={{'float': 'right', 'paddingLeft': '25px'}}>10</span>
-          <span style={{'float': 'right'}}>15</span>
+          <span style={{'float': 'right', 'paddingLeft': '25px'}}>{this.props.minMaxTemp.minTemp}</span>
+          <span style={{'float': 'right'}}>{this.props.minMaxTemp.maxTemp}</span>
         </div>
         <div className="Line LineBefore">&nbsp;</div>
 
@@ -111,61 +125,13 @@ class HourlyForcast extends React.Component{
               <img src={leftArrow} className="imgArrow"></img>
           </div>
           <div className="inner" id="scrollContainer">
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>15</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>16</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>17</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>18</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>19</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>20</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>21</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>22</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>23</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
-            <div className="HourlyForcastCard">
-                <div style={{'margin': '-3px 0px'}}>24</div>
-                <img src={id}></img>
-                <div >15&deg;</div>
-            </div>
+            {displayHourlyForecast}
           </div>
-          <div className="RightArrow">
-              <img src={rightArrow} className="imgArrow" onClick={this.handleRightClick} style={{visibility: this.state.visibilityRight}}></img>
+          <div className="RightArrow" style={{visibility: this.state.visibilityRight}}>
+              <img src={rightArrow} className="imgArrow" onClick={this.handleRightClick} ></img>
           </div>
         </div>
+
         <div className="Line LineAfter">&nbsp;</div>
       </div>
     );
