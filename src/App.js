@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import forecast from './forecast';
-import DayCard from './DayCard';
+import FiveDaysCard from './5DaysCard';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import EachDayCard from './EachDayCard';
 
 class App extends Component {
   constructor(){
@@ -12,13 +13,13 @@ class App extends Component {
 
   getWhatDay(day){
     var weekday = new Array(7);
-    weekday[0] =  "Sun";
-    weekday[1] = "Mon";
-    weekday[2] = "Tue";
-    weekday[3] = "Wed";
-    weekday[4] = "Thur";
-    weekday[5] = "Fri";
-    weekday[6] = "Sat";
+    weekday[0] =  "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tueday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thurday";
+    weekday[5] = "Friday";
+    weekday[6] = "Satday";
 
     day = day%7;
 
@@ -28,7 +29,6 @@ class App extends Component {
   componentDidMount(){
     var data = JSON.parse(JSON.stringify(forecast));
     var index = 1;
-    console.log(data);
     for (var i = 8; i <= 40; i=i+8){
       let forecast = data.list.slice(i-8,i).map((main,) =>{
         return {
@@ -48,17 +48,27 @@ class App extends Component {
   render() {
     var date = new Date();
     var hour = date.getHours();
-
+    // <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
+    // <Route  exact path={'/'+this.getWhatDay(date.getDay())} render={()=><EachDayCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
     return (
       this.state.isStateSet
       &&
-      <div className="App">
-        <DayCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>
-        <DayCard forcast={this.state.forecastDay2} day={this.getWhatDay(date.getDay()+1)} hour={hour}/>
-        <DayCard forcast={this.state.forecastDay3} day={this.getWhatDay(date.getDay()+2)} hour={hour}/>
-        <DayCard forcast={this.state.forecastDay4} day={this.getWhatDay(date.getDay()+3)} hour={hour}/>
-        <DayCard forcast={this.state.forecastDay5} day={this.getWhatDay(date.getDay()+4)} hour={hour}/>
-      </div>
+      <Router>
+        <div className="App">
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay1} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
+          {/*<Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay2} day={this.getWhatDay(date.getDay()+1)} hour={hour}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay3} day={this.getWhatDay(date.getDay()+2)} hour={hour}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay4} day={this.getWhatDay(date.getDay()+3)} hour={hour}/>} />
+          <Route  exact path="/" render={()=><FiveDaysCard forcast={this.state.forecastDay5} day={this.getWhatDay(date.getDay()+4)} hour={hour}/>} />*/}
+
+          <Route  exact path={'/'+this.getWhatDay(date.getDay())} render={()=><EachDayCard allForcast={this.state} day={this.getWhatDay(date.getDay())} hour={hour}/>} />
+          {/*<Route  exact path={'/'+this.getWhatDay(date.getDay()+1)} render={()=><EachDayCard forcast={this.state.forecastDay2} day={this.getWhatDay(date.getDay()+2)} hour={hour}/>} />
+          <Route  exact path={'/'+this.getWhatDay(date.getDay()+2)} render={()=><EachDayCard forcast={this.state.forecastDay3} day={this.getWhatDay(date.getDay()+3)} hour={hour}/>} />
+          <Route  exact path={'/'+this.getWhatDay(date.getDay()+3)} render={()=><EachDayCard forcast={this.state.forecastDay4} day={this.getWhatDay(date.getDay()+4)} hour={hour}/>} />
+          <Route  exact path={'/'+this.getWhatDay(date.getDay()+4)} render={()=><EachDayCard forcast={this.state.forecastDay5} day={this.getWhatDay(date.getDay()+5)} hour={hour}/>} />*/}
+        </div>
+      </Router>
+
     );
 
   }
